@@ -22,7 +22,7 @@
         >
           <defs>
             <clipPath id="drip-clip">
-              <path
+              <path id="drip-clip-path"
                 fill-rule="evenodd"
                 fill="rgb(255, 255, 255)"
                 d="M-0.000,183.016 L-0.000,0.016 L96.000,0.016 L96.000,183.016 L-0.000,183.016 ZM96.000,198.016 L96.000,217.016 L-0.000,217.016 L-0.000,198.016 L96.000,198.016 ZM96.000,273.016 L-0.000,273.016 L-0.000,232.016 L96.000,232.016 L96.000,273.016 Z"
@@ -185,7 +185,7 @@ export default {
           this.$anime
           .timeline()
           .add({
-            targets: "#drip-clip",
+            targets: "#drip-clip-path",
             translateY: [-270, 10],
             easing: "easeInOutQuint",
             delay: 200,
@@ -194,7 +194,7 @@ export default {
             loop: false
           })
           .add({
-            targets: "#drip-clip",
+            targets: "#drip-clip-path",
             translateY: 195,
             easing: "easeInOutQuint",
             duration: 1300,
@@ -383,7 +383,7 @@ export default {
   top: -51px;
   transform: scale(1.68);
 }
-#drip-clip {
+#drip-clip-path {
   transform: translateY(-270px);
 }
 </style>
