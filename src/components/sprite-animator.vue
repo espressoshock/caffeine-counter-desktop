@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'v-sprite',
+  name: 'SpriteAnimator',
   props: {
     spritesheet: {
       required: true,
