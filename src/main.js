@@ -5,7 +5,6 @@ import anime from 'animejs'
 
 
 Vue.config.productionTip = false
-Vue.use(VueSpriteAnimator)
 Object.defineProperty(Vue.prototype, '$anime', { value: anime });
 
 new Vue({
