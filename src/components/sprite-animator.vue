@@ -8,17 +8,18 @@
       :height="height"
       ref="vue-sprite-canvas"
     ></canvas>
+ 
   </div>
 </template>
 
 <script>
 export default {
-  name: 'SpriteAnimator',
+  name: "SpriteAnimator",
   props: {
     spritesheet: {
       required: true,
       type: String,
-      default: ''
+      default: ""
     },
     json: {
       required: true,
@@ -39,10 +40,10 @@ export default {
     },
     id: {
       type: String,
-      default: 'vue-sprite'
+      default: "vue-sprite"
     }
   },
-  data () {
+  data() {
     return {
       frames: [],
       visible: true,
@@ -57,80 +58,122 @@ export default {
       width: 0,
       now: 0,
       then: 0
-    }
+    };
   },
-  mounted () {
-    this.json.frames.forEach((frame) => {
+  mounted() {
+    this.json.frames.forEach(frame => {
       this.frames.push({
         name: frame.filename,
         x: frame.frame.x,
         y: frame.frame.y,
         w: frame.frame.w,
         h: frame.frame.h
-      })
-    })
-    this.frames.sort((a, b) => a.filename < b.filename)
-    this.width = this.frames[0].w
-    this.height = this.frames[0].h
-    this.length = (this.frames.length - 1)
+      });
+    });
+    this.frames.sort((a, b) => a.filename < b.filename);
+    this.width = this.frames[0].w;
+    this.height = this.frames[0].h;
+    this.length = this.frames.length - 1;
   },
-  created () {
+  created() {
     this.$nextTick(() => {
-      this.sprite = new Image()
-      this.sprite.src = this.spritesheet
-      this.sprite.onload = ({ target }) => { this.init(target) }
-    })
+      this.sprite = new Image();
+      this.sprite.src = this.spritesheet;
+      this.sprite.onload = ({ target }) => {
+        this.init(target);
+      };
+    });
   },
   methods: {
-    init (img) {
-      this.ctx = this.$refs['vue-sprite-canvas'].getContext('2d')
-      this.autoplay && this.loop()
+    init(img) {
+      this.ctx = this.$refs["vue-sprite-canvas"].getContext("2d");
+      this.autoplay && this.loop();
     },
-    render () {
-      this.ctx && this.ctx.clearRect(0, 0, this.width, this.height)
-      if (this.yoyo && this.currentIndex % this.length === 0 && this.currentIndex) {
-        this.yoyodirection = Number(!this.yoyodirection)
+    render() {
+      //double buffer implementation
+      let canvas2 = document.createElement("canvas");
+      canvas2.width = this.width;
+      canvas2.height = this.height;
+      let context2 = canvas2.getContext("2d");
+
+      this.ctx && this.ctx.clearRect(0, 0, this.width, this.height);
+      if (
+        this.yoyo &&
+        this.currentIndex % this.length === 0 &&
+        this.currentIndex
+      ) {
+        this.yoyodirection = Number(!this.yoyodirection);
       }
-      const index = Math.abs((this.currentIndex % this.length) - (this.length * this.yoyodirection))
-      const x = this.frames[index].x
-      const y = this.frames[index].y
-      this.ctx && this.ctx.drawImage(this.sprite, x, y, this.width, this.height, 0, 0, this.width, this.height)
+      const index = Math.abs(
+        (this.currentIndex % this.length) - this.length * this.yoyodirection
+      );
+      const x = this.frames[index].x;
+      const y = this.frames[index].y;
+     /* this.ctx &&
+        this.ctx.drawImage(
+          this.sprite,
+          x,
+          y,
+          this.width,
+          this.height,
+          0,
+          0,
+          this.width,
+          this.height
+        );*/
+        context2.drawImage(
+          this.sprite,
+          x,
+          y,
+          this.width,
+          this.height,
+          0,
+          0,
+          this.width,
+          this.height
+        );
+        this.ctx.drawImage(canvas2, 0,0);
     },
-    loop () {
-      this.now = Date.now()
-      const delta = (this.now - this.then)
-      if (delta > (1000 / this.fps)) {
-        this.then = this.now - (delta % (1000 / this.fps))
-        this.render()
-        this.currentIndex++
+    loop() {
+      this.now = Date.now();
+      const delta = this.now - this.then;
+      if (delta > 1000 / this.fps) {
+        this.then = this.now - (delta % (1000 / this.fps));
+        this.render();
+        this.currentIndex++;
       }
-      this.animationFrameID = window.requestAnimationFrame(this.loop)
+      this.animationFrameID = window.requestAnimationFrame(this.loop);
     },
-    stop () {
-      window.cancelAnimationFrame(this.animationFrameID)
-      this.currentIndex = 0
+    stop() {
+      window.cancelAnimationFrame(this.animationFrameID);
+      this.currentIndex = 0;
     },
-    play (from) {
-      this.currentIndex = Number.isNaN(Number(from)) ? this.currentIndex : from
-      this.loop()
+    play(from) {
+      this.currentIndex = Number.isNaN(Number(from)) ? this.currentIndex : from;
+      this.loop();
     },
-    customLoop(){
-         this.now = Date.now()
-        const delta = (this.now - this.then)
-        if (delta > (1000 / this.fps)) {
-            this.then = this.now - (delta % (1000 / this.fps))
-            this.render()
-            this.currentIndex++
-        }
-      
-        if(this.currentIndex<this.length) this.animationFrameID = window.requestAnimationFrame(this.customLoop)
+    reset(){
+      this.currentIndex = 0;
+      this.render();
     },
-    playOnce(from){
-         this.currentIndex = Number.isNaN(Number(from)) ? this.currentIndex : from
-         this.customLoop()
+    customLoop() {
+      this.now = Date.now();
+      const delta = this.now - this.then;
+      if (delta > 1000 / this.fps) {
+        this.then = this.now - (delta % (1000 / this.fps));
+        this.render();
+        this.currentIndex++;
+      }
+
+      if (this.currentIndex < this.length)
+        this.animationFrameID = window.requestAnimationFrame(this.customLoop);
+    },
+    playOnce(from) {
+      this.currentIndex = Number.isNaN(Number(from)) ? this.currentIndex : from;
+      this.customLoop();
     }
   }
-}
+};
 </script>
 
 <style></style>

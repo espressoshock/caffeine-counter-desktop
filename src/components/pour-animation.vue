@@ -157,9 +157,9 @@ export default {
 
           let ref = this;
           //animate full-cup pour
-         // this.coffeCupAnim(1000);
-          setTimeout(function(){
-            ref.$refs.coffeePourAnim.playOnce(0);
+          this.coffeCupAnim(1000);
+         /* setTimeout(function(){
+            ref.$refs.coffeePourAnim.playOnce();
              //move to the right
           ref.$anime({
             targets: ".espresso-cup-wrapper",
@@ -173,9 +173,14 @@ export default {
             rotateZ: [{ value: -10, duration: 200 }, { value: 0 }],
             delay: 2300,
             autoplay: true,
-            loop: false
+            loop: false,
+            complete: function(){
+              //reset pour animation
+              ref.coffeeWrapperRender = false;
+             //ref.$refs.coffeePourAnim.reset();
+            }
           });
-          },1000)
+          },1000)*/
           
           //emit event on bus
           //bus.$emit('coffeIncrease');
