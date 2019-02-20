@@ -1,6 +1,6 @@
 <template>
   <div id="caffeine-counter">
-    <div class="caffeine-title">You’re doing great!</div>
+    <div class="caffeine-title" ref="caffeineTitle">{{caffeineObj.caffeineMessage.message}}</div>
     <div class="roll-counter">
       <div class="roll-counter-wrapper" id="roll-counter1">
         <div class="roll-digit-wrapper" ref="digit1" :style="initPosition(digit1)"></div>
@@ -15,7 +15,7 @@
         <div class="roll-digit-wrapper" ref="digit4" :style="initPosition(digit4)"></div>
       </div>
 
-      <div class="caffeine-unit">{{getCaffeineUnit}}</div>
+      <div class="caffeine-unit" ref="caffeineUnit">{{getCaffeineUnit}}</div>
     </div>
   </div>
 </template>
@@ -32,7 +32,8 @@ export default {
     digit1: Object,
     digit2: Object,
     digit3: Object,
-    digit4: Object
+    digit4: Object,
+    caffeineObj: Object
     /* objects passed
     offset: Number,
     totalIter: Number,
@@ -43,7 +44,8 @@ export default {
   },
   data() {
     return {
-      rollStep: 40
+      rollStep: 40,
+
     };
   },
   mounted: function() {
@@ -172,6 +174,13 @@ export default {
       digits.d4 = this.pad(caffeine, 4).charAt(3);
       return digits;
 
+    },
+    animateColor: function(target, color){
+      this.$anime({
+        targets: target,
+        color: color,
+        easing: 'linear',
+      });
     }
   },
   watch: {
@@ -197,6 +206,55 @@ export default {
       digits.d1
     );
     console.log(digits);
+    },
+    'caffeineObj.caffeineMessage.message'(newValue, oldValue){
+     console.log(newValue);
+     let ref = this;
+          this.$anime
+          .timeline()
+          .add({
+            targets: '.caffeine-title',
+            translateY: [
+              {value: 20, easing: "easeOutElastic(1, 0.5)", duration:600}
+            ],
+            opacity: [1,0],
+            easing: 'linear',
+            delay: 500,
+            duration: 100,
+            autoplay: true,
+            loop: false,
+            complete: function(){
+              ref.$refs.caffeineTitle.innerHTML = newValue;
+              ref.$refs.caffeineTitle.style.color = ref.caffeineObj.caffeineMessage.color;
+            }
+          })
+           .add({
+            targets: '.caffeine-title',
+            translateY: [
+              {value: 32, easing: "easeOutElastic(1.5, 0.4)", duration:900}
+            ],
+            opacity: [0,1],
+            easing: 'linear',
+            delay: 0,
+            duration: 100,
+            autoplay: true,
+            loop: false,
+           
+          })
+          .add({
+            targets: '.caffeine-unit',
+            color: ref.caffeineObj.caffeineUnit.color,
+            easing: 'linear',
+            delay: 0,
+            duration: 500,
+            autoplay: true,
+            loop: false,
+           
+          }, '0');
+        //change caffeine unit color
+         //this.animateColor(this.$refs.caffeineUnit, "'"+this.caffeineObj.caffeineUnit.color+"'");
+           
+         
     }
   }
 };
