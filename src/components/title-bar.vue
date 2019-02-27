@@ -51,5 +51,58 @@ export default {
 </script>
 
 <style scoped>
+#title-bar {
+  width: 100%;
+  height: 35px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-app-region: drag;
+  background: #2d2a44;
+  padding: 0;
+  margin: 0;
+  z-index: 20;
+}
+.icons{
+   height: 35px;
+    width: 90px;
+    position: absolute;
+    right: 0;
+}
+.close-btn, .minimize-btn{
+  -webkit-app-region: no-drag;
+}
+.close-btn {
+  position: absolute;
+  right: 0;
+ width: 45px;
+  height: 35px;
+}
+.close-btn:hover{
+    background: #ee1351;
+}
+.close-btn svg{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -5.92px;
+    margin-left: -5.89px;
+}
+.minimize-btn{
+    position: absolute;
+   width: 45px;
+    height: 35px;
+    right: 45px;
 
+}
+.minimize-btn:hover{
+    background: #635f79;
+}
+.minimize-btn svg{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -0.5px;
+    margin-left: -5.5px;
+}
 </style>
