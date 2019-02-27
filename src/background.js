@@ -24,7 +24,7 @@ let win
 protocol.registerStandardSchemes(['app'], { secure: true })
 function createWindow () {
   // Create the browser window.
-  win = new BrowserWindow({ width: 419, height: 490, resizable: false, webPreferences: {devTools: false, backgroundThrottling: false,offscreen: false}, backgroundColor: '#3a384c' , show: false})
+  win = new BrowserWindow({ width: 413, height: 496, resizable: false, webPreferences: {devTools: false, backgroundThrottling: false,offscreen: false}, backgroundColor: '#3a384c' , show: false, frame: false})
   win.setAutoHideMenuBar(true);
   win.setMenuBarVisibility(false);
   win.setMenu(null);
