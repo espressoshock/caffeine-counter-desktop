@@ -7,7 +7,6 @@
       <increment-coffee-btn></increment-coffee-btn>
       <bottom-bar></bottom-bar>
     </div>
-
   </div>
 </template>
 
@@ -17,7 +16,7 @@ import BottomBar from "../src/components/bottom-bar";
 import CoffeeCounter from "../src/components/coffee-counter";
 import IncrementCoffeeBtn from "../src/components/increment-coffee-btn";
 import PourAnimation from "../src/components/pour-animation";
-import TitleBar from '../src/components/title-bar'
+import TitleBar from "../src/components/title-bar";
 
 import { mapActions } from "vuex";
 import { mapGetters } from "vuex";
@@ -40,12 +39,13 @@ export default {
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:700,900");
+@import url("../src/assets/fonts/font-face-bundle.css");
 
 html,
 body,
 #app {
   font-family: "Source Sans Pro", sans-serif;
+  font-style: normal;
   margin: 0;
   padding: 0;
   user-select: none;
@@ -57,7 +57,7 @@ body,
   background: #4a475f;
   position: relative;
 }
-.window-content{
+.window-content {
   position: relative;
   top: 35px;
   width: 100%;

@@ -29,6 +29,7 @@ function createWindow () {
   win.setMenuBarVisibility(false);
   win.setMenu(null);
 
+
   win.once('ready-to-show', () => {
     win.show()
   })
