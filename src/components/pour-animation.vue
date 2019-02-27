@@ -63,7 +63,6 @@
 
 
 <script>
-import SpriteAnimator from "./sprite-animator";
 
 export default {
   name: "PourAnimation",
