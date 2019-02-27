@@ -96,11 +96,20 @@ export default {
       ) {
         //scale animation
         this.cupScaleAnimation();
-
-        this.dragHandling.dragAllowed = true;
-        this.dragHandling.dragActive = true;
-        this.dragHandling.dragInitialX =
+        //enable drag
+        this.sleep(200).then(()=>{
+          this.dragHandling.dragAllowed = true;
+          this.dragHandling.dragActive = true;
+          this.dragHandling.dragInitialX =
           e.clientX - this.dragHandling.dragXOffset;
+        });
+        /* //emitter emits the promise too late
+        this.cupScaleAnimation().finished.then(()=>{
+          this.dragHandling.dragAllowed = true;
+          this.dragHandling.dragActive = true;
+          this.dragHandling.dragInitialX =
+          e.clientX - this.dragHandling.dragXOffset;
+        }); */
       }
     },
     dragend: function(e) {
@@ -262,21 +271,20 @@ export default {
           duration: 1500,
           autoplay: true,
           loop: false,
-          delay: delay,
+          delay: delay
         }
       );
     },
     cupScaleAnimation: function(scaleFactor = 1.2, rotationFactor = 0) {
       //scale anim
-      this.$anime({
+      return this.$anime({
         targets: ".espresso-cup-wrapper",
         scale: scaleFactor,
         rotateZ: rotationFactor,
         easing: "easeOutElastic(1, 0.5)",
         duration: 800,
         autoplay: true,
-        loop: false,
-        complete: function(anim) {}
+        loop: false
       });
     },
     cupRotateAnimation: function(factor = -10) {
