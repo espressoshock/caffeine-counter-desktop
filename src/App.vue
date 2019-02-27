@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <title-bar></title-bar>
+    <title-bar title="Caffeine counter"></title-bar>
     <div class="window-content">
       <pour-animation></pour-animation>
       <coffee-counter v-bind:maxCoffee="20"></coffee-counter>

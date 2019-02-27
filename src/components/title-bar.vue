@@ -1,8 +1,8 @@
 <template>
   <div id="title-bar">
-    <span class="title"></span>
+    <span class="title">{{title}}</span>
     <span class="icons">
-      <span class="minimize-btn">
+      <span class="minimize-btn" v-on:click="minimizeWindow">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -16,7 +16,7 @@
           ></path>
         </svg>
       </span>
-      <span class="close-btn">
+      <span class="close-btn" v-on:click="closeWindow">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -35,18 +35,29 @@
 </template>
 
 <script>
+import { remote } from "electron";
+
 export default {
   props: {
     title: {
       type: String,
-      require: true
+      required: true
     }
   },
   name: "TitleBar",
   data() {
     return {};
   },
-  mounted: function() {}
+  mounted: function() {
+  },
+  methods: {
+    closeWindow: function() {
+      remote.app.quit();
+    },
+    minimizeWindow: function() {
+      remote.getCurrentWindow().minimize();
+    }
+  }
 };
 </script>
 
@@ -63,46 +74,57 @@ export default {
   margin: 0;
   z-index: 20;
 }
-.icons{
-   height: 35px;
-    width: 90px;
-    position: absolute;
-    right: 0;
+.icons {
+  height: 35px;
+  width: 90px;
+  position: absolute;
+  right: 0;
 }
-.close-btn, .minimize-btn{
+.close-btn,
+.minimize-btn {
   -webkit-app-region: no-drag;
 }
 .close-btn {
   position: absolute;
   right: 0;
- width: 45px;
+  width: 45px;
   height: 35px;
 }
-.close-btn:hover{
-    background: #ee1351;
+.close-btn:hover {
+  background: #ee1351;
 }
-.close-btn svg{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -5.92px;
-    margin-left: -5.89px;
+.close-btn svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -5.92px;
+  margin-left: -5.89px;
 }
-.minimize-btn{
-    position: absolute;
-   width: 45px;
-    height: 35px;
-    right: 45px;
-
+.minimize-btn {
+  position: absolute;
+  width: 45px;
+  height: 35px;
+  right: 45px;
 }
-.minimize-btn:hover{
-    background: #635f79;
+.minimize-btn:hover {
+  background: #635f79;
 }
-.minimize-btn svg{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -0.5px;
-    margin-left: -5.5px;
+.minimize-btn svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -0.5px;
+  margin-left: -5.5px;
+}
+.title {
+  text-align: center;
+  color: white;
+  color: #1c1a30;
+  position: relative;
+  left: 146px;
+  top: 5px;
+  font-size: 16px;
+  -webkit-transition: all 0.3s;
+  display: none;
 }
 </style>
