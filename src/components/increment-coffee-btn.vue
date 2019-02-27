@@ -1,6 +1,7 @@
 <template>
   <div id="increment-coffee-btn">
-    <div class="btn-wrapper" ref="increaseBtn" style="opacity: 1">
+    <div class="flash-simulator"></div>
+    <div class="btn-wrapper" ref="increaseBtn" style="opacity: 0">
       <svg class="increase-btn"
         xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -21,23 +22,42 @@
 export default {
   name: "IncrementCoffeeBtn",
   data() {
-    return {};
+    return {
+      animationTimeline: this.$anime.timeline()
+    };
   },
   mounted: function() {
-    this.$anime({
+    this.animationTimeline.add({
+      targets: '.flash-simulator',
+      easing: 'linear',
+      opacity: [
+        [0],
+        {value: 0},
+        {value: 1, duration: 100},
+      ]
+    })
+    .add({
+      targets: '.flash-simulator',
+      easing: 'linear',
+      duration: 100,
+      opacity: [
+        {value: 0},
+      ]
+    })
+    .add({
       targets: this.$refs.increaseBtn,
-      scale:[20,1],
+      scale:[5,1],
       opacity: [
         {
           value: "1",
-          duration: 1100,
+          duration: 1000,
           delay: 0,
           easing: "cubicBezier(.17,.67,.83,.67)"
         }
       ],
       easing: "easeOutElastic(1, 1)",
       delay: 0,
-      duration: 1100,
+      duration: 1000,
       autoplay: true,
       loop: false
     });
@@ -62,11 +82,21 @@ export default {
   margin-top: -10.5px;
   width: 19px;
   height: 21px;
+  z-index: 1;
 
 }
 .btn-wrapper > svg{
   filter: drop-shadow(0 0 12px rgb(255, 255, 255) ) drop-shadow(0 0 15px rgba(255, 255, 255, 0.7) );
 
 }
-
+.flash-simulator{
+  width: 100%;
+  height: 100%;
+  background: rgb(177, 174, 191);
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  opacity: 0;
+}
 </style>
