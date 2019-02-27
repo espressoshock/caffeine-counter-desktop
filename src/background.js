@@ -8,10 +8,13 @@ import {
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 //disable HW Acceleration
-app.disableHardwareAcceleration()
+//app.disableHardwareAcceleration()
 
+//enable only if you know what you're doing
+/*
 app.commandLine.appendSwitch('enable-gpu-rasterization', 'true')
 app.commandLine.appendSwitch('enable-native-gpu-memory-buffers', 'true')
+*/
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -24,6 +27,7 @@ function createWindow () {
   win = new BrowserWindow({ width: 419, height: 490, resizable: false, webPreferences: {devTools: false, backgroundThrottling: false,offscreen: false}, backgroundColor: '#3a384c' , show: false})
   win.setAutoHideMenuBar(true);
   win.setMenuBarVisibility(false);
+  win.setMenu(null);
 
   win.once('ready-to-show', () => {
     win.show()
