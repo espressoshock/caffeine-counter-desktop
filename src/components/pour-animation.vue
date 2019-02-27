@@ -137,7 +137,7 @@ export default {
               this.$anime.remove(".espresso-cup-wrapper");
               this.$refs.espressoCupWrapper.style.right = "-160px";
               this.$refs.coffeePourAnimation.reset(0);
-              this.coffeeCupEntryAnimation();
+              this.coffeeCupEntryAnimation(0);
             });
           });
 
