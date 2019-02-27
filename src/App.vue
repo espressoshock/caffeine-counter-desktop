@@ -1,9 +1,13 @@
 <template>
   <div id="app">
-    <pour-animation></pour-animation>
-    <coffee-counter v-bind:maxCoffee="20"></coffee-counter>
-    <increment-coffee-btn></increment-coffee-btn>
-    <bottom-bar></bottom-bar>
+    <title-bar></title-bar>
+    <div class="window-content">
+      <pour-animation></pour-animation>
+      <coffee-counter v-bind:maxCoffee="20"></coffee-counter>
+      <increment-coffee-btn></increment-coffee-btn>
+      <bottom-bar></bottom-bar>
+    </div>
+
   </div>
 </template>
 
@@ -13,6 +17,7 @@ import BottomBar from "../src/components/bottom-bar";
 import CoffeeCounter from "../src/components/coffee-counter";
 import IncrementCoffeeBtn from "../src/components/increment-coffee-btn";
 import PourAnimation from "../src/components/pour-animation";
+import TitleBar from '../src/components/title-bar'
 
 import { mapActions } from "vuex";
 import { mapGetters } from "vuex";
@@ -27,7 +32,8 @@ export default {
     "bottom-bar": BottomBar,
     "pour-animation": PourAnimation,
     "coffee-counter": CoffeeCounter,
-    "increment-coffee-btn": IncrementCoffeeBtn
+    "increment-coffee-btn": IncrementCoffeeBtn,
+    "title-bar": TitleBar
   },
   methods: {}
 };
@@ -47,8 +53,14 @@ body,
 #app {
   overflow: hidden;
   width: 413px;
-  height: 461px;
+  height: 496px;
   background: #4a475f;
   position: relative;
+}
+.window-content{
+  position: relative;
+  top: 35px;
+  width: 100%;
+  height: 461px;
 }
 </style>
